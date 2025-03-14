@@ -5,6 +5,8 @@ import config  # Конфигурационный файл для загрузк
 from handlers import common  # Подключение общих обработчиков
 from echo.echo_tts import router as tts_router  # Роутер для текстовых сообщений
 import requests  # Для проверки API Telegram
+from webhook import app  # Импорт Flask-приложения из webhook.py
+from threading import Thread  # Для запуска Flask и бота одновременно
 
 API_TOKEN = config.token  # Загрузка токена из переменной окружения
 
@@ -30,19 +32,3 @@ bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
 
 # Подключение обработчиков (роутеров)
-dp.include_router(common.router)  # Роутеры для обработки команд
-dp.include_router(tts_router)  # Роутеры для обработки текстовых сообщений
-
-async def main():
-    """
-    Основная функция для запуска бота.
-    """
-    try:
-        # Запуск polling для постоянного получения обновлений от Telegram
-        await dp.start_polling(bot)
-    finally:
-        # Закрытие сессии при завершении работы
-        await bot.session.close()
-
-if __name__ == '__main__':
-    asyncio.run(main())  # Асинхронный запуск программы
