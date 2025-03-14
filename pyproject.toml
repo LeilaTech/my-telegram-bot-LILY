@@ -1,7 +1,13 @@
 [project]
-name = "python-template"
+name = "telegram-bot-project"
 version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
+description = "Телеграм-бот с функциями игр и изображениями животных"
+authors = ["Ваше Имя <ваш@почта.com>"]
 requires-python = ">=3.11"
-dependencies = []
+
+[dependencies]
+aiogram = ">=3.18.0"
+requests = ">=2.32.3"
+gtts = "*"
+pydub = "*"
+ffmpeg = "*"
