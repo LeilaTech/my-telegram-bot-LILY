@@ -8,6 +8,7 @@ from echo.echo_tts import router as tts_router  # Обработчик текс�
 import requests  # Для проверки доступности Telegram API
 from webhook import app  # Flask-сервер для обработки веб-запросов
 from threading import Thread  # Для запуска Flask и Telegram-бота параллельно
+from flask import Response  # Для возврата HTML-ответов
 
 # Загрузка токена Telegram-бота из config.py
 API_TOKEN = config.token
@@ -58,7 +59,16 @@ async def start_telegram_bot():
 def start_flask():
     """
     Запускает Flask-сервер в отдельном потоке.
+    Добавляет маршрут для отображения сообщения "Сервер работает!".
     """
+    @app.route("/")
+    def home():
+        return Response("""
+        <html>
+            <body>Сервер работает!</body>
+        </html>
+        """, mimetype="text/html")
+
     app.run(host='0.0.0.0', port=8080)
 
 if __name__ == '__main__':
@@ -71,3 +81,4 @@ if __name__ == '__main__':
 
     # Запускаем Telegram-бота в основном потоке
     asyncio.run(start_telegram_bot())
+
